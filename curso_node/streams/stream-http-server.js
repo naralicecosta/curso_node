@@ -11,12 +11,11 @@ class InverseNumberStream extends Transform{
     }
 }
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async(req, res) => {
     const buffers = []
-
         //percorrer a stream e adicionar dentro do array de buffers
     for await (const chunk of req) {
-        buffers.push()
+        buffers.push(chunk)
     }
 
     const fullStreamContent = Buffer.concat(buffers).toString()

@@ -5,7 +5,7 @@ class OnetoHundredStream extends Readable {
         const i = this.index++
 
         setTimeout(() => {
-            if(i > 100){
+            if(i > 5){
                 this.push(null)
             }else{
                 const buf = Buffer.from(String(i))
@@ -20,5 +20,9 @@ fetch('http://localhost:3335', {
     method: 'POST',
     body: new OnetoHundredStream(),
     duplex: 'half'
+}).then(response => {
+    return response.text()
+}).then(data => {
+    console.log(data)
 })
 //fetch api, api completa para trabalhar com requisições completas. uma aplicaçap para outra. so spode ser put ou post
