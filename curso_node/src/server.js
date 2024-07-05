@@ -1,4 +1,5 @@
 import http from 'node:http'
+import { json } from './middlewares/json.js'
 
 //criar um usuário (nome, email, senha)
 // listar usuario 
@@ -25,16 +26,18 @@ const users = []
 const server = http.createServer(async(request, response) => {
     const {method, url} = request
 
-    const buffers = []
-    //percorrer a stream e adicionar dentro do array de buffers
-    for await (const chunk of request) {
-        buffers.push(chunk)
-    }
-    try{
-        request.body = JSON.parse(Buffer.concat(buffers).toString())
-    } catch{
-        request.body = null
-    }
+    await json(request, response)
+
+    // const buffers = []
+    // //percorrer a stream e adicionar dentro do array de buffers
+    // for await (const chunk of request) {
+    //     buffers.push(chunk)
+    // }
+    // try{
+    //     request.body = JSON.parse(Buffer.concat(buffers).toString())
+    // } catch{
+    //     request.body = null
+    // }
 
     
     if (method == 'GET' && url == '/users'){
