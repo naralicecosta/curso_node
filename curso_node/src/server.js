@@ -1,6 +1,7 @@
 import http from 'node:http'
 import { json } from './middlewares/json.js'
 import { routes } from './routes.js'
+import { extractQueryParams } from './utils/extract-query-params.js'
 
 //query parameters : parametros enviados no proprio endereço de url. usado quando precisamos ter url statefull http://localhost:333/users?userID=1&name=Nara
 //Route Parameters : parametros não nomeados que ficam na rota, identificação de recurso... GET http://localhost:333/users/1 ... 
@@ -16,8 +17,10 @@ const server = http.createServer(async(request, response) => {
 
     if(route) {
         const routeParams = request.url.match(route.path)
-        console.log(routeParams)
 
+        console.log(extractQueryParams(routeParams.groups.query))
+
+         request.params = { ...routeParams.groups}
 
         return route.handler(request, response)
     }
